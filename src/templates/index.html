@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <title>High or Low</title>
+  </head>
+  <body class="bg-gray-200">
+    <div class="container mx-auto p-8">
+      <h1 class="text-3xl font-bold text-blue-500 mb-4">High or Low</h1>
+      <p class="text-gray-700 mb-6">Guess the correct number?</p>
+
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <label for="guess" class="block text-gray-800 mb-2"
+          >Enter your guess:</label
+        >
+        <input
+          type="number"
+          id="guess"
+          class="w-full border border-gray-300 p-2 rounded-md mb-4"
+        />
+
+        <button
+          onclick="checkGuess()"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+          Submit Guess
+        </button>
+
+        <p id="result" class="mt-4 text-gray-700"></p>
+
+        <button
+          id="resetBtn"
+          onclick="resetGame()"
+          class="hidden bg-gray-500 text-white px-4 py-2 rounded-md mt-4 hover:bg-gray-600"
+        >
+          Play Again
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let correctNumber = generateRandomNumber();
+
+      function generateRandomNumber() {
+        return Math.floor(Math.random() * 100) + 1;
+      }
+
+      function checkGuess() {
+        const userGuess = parseInt(document.getElementById("guess").value);
+        const resultElement = document.getElementById("result");
+        const resetButton = document.getElementById("resetBtn");
+
+        if (isNaN(userGuess)) {
+          resultElement.innerText = "Please enter a valid number.";
+        } else {
+          if (userGuess === correctNumber) {
+            resultElement.innerText = "Congratulations! You guessed correctly!";
+            resetButton.classList.remove("hidden");
+          } else if (userGuess < correctNumber) {
+            resultElement.innerText =
+              "Try again. The correct number is higher.";
+          } else {
+            resultElement.innerText = "Try again. The correct number is lower.";
+          }
+        }
+      }
+
+      function resetGame() {
+        correctNumber = generateRandomNumber();
+        document.getElementById("result").innerText = "";
+        document.getElementById("resetBtn").classList.add("hidden");
+        document.getElementById("guess").value = "";
+      }
+    </script>
+  </body>
+</html>
